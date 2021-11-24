@@ -78,16 +78,18 @@ void loop() {
  ble.println(pumpSpeed);
 
 
+// Portion of PID code
+   
   /// Output temperature based off reading /////
- double input1 = thermocouple1.readCelsius();
- double input2 = thermocouple2.readCelsius();
- myPID.Compute();
- unsigned long now = millis();
- if (now - windowStartTime > WindowSize){
-   windowStartTime += WindowSize; }
- if (Output > now - windowStartTime){
-   digitalWrite(PowerPin1 && PowerPin2, HIGH); }
- else {digitalWrite(PowerPin1 && PowerPin2, LOW); }
+//  double input1 = thermocouple1.readCelsius();
+//  double input2 = thermocouple2.readCelsius();
+//  myPID.Compute();
+//  unsigned long now = millis();
+//  if (now - windowStartTime > WindowSize){
+//    windowStartTime += WindowSize; }
+//  if (Output > now - windowStartTime){
+//    digitalWrite(PowerPin1 && PowerPin2, HIGH); }
+//  else {digitalWrite(PowerPin1 && PowerPin2, LOW); }
    
   /// Set puller motor speed /////
  StepsRequired = total_steps;
