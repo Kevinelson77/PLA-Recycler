@@ -31,41 +31,41 @@ Adafruit_MAX31855 thermocouple1(MAXCLK, MAXCS1, MAXDO);
 Adafruit_MAX31855 thermocouple2(MAXCLK, MAXCS2, MAXDO);
 
 //PID Controller
-//double Setpoint, Input, Output;
-//int WindowSize = 5000;
-//unsigned long windowStartTime;
-//PID myPID(&Input, &Output, &Setpoint, 2, 0, 0, DIRECT);
-//
-//// Stepper Motor
-//int StepsRequired;
-//const float steps_per_rev = 32;                             //Internal motor revolution
-//const float gear_reduction = 64;                            //Gear reduction
-//const float total_steps = steps_per_rev*gear_reduction;     //Total # of steps
-//Stepper steppermotor(steps_per_rev, 9, 11, 10, 12);         // Pins used are 9, 10, 11, 12(IN1, IN2, IN3, IN4, respectively)
+double Setpoint, Input, Output;
+int WindowSize = 5000;
+unsigned long windowStartTime;
+PID myPID(&Input, &Output, &Setpoint, 2, 0, 0, DIRECT);
 
-// RPM Counter
-//unsigned int counter = 0;
-//float diskslots = 24.00;
-//float rotation;
+// Stepper Motor
+int StepsRequired;
+const float steps_per_rev = 32;                             //Internal motor revolution
+const float gear_reduction = 64;                            //Gear reduction
+const float total_steps = steps_per_rev*gear_reduction;     //Total # of steps
+Stepper steppermotor(steps_per_rev, 9, 11, 10, 12);         // Pins used are 9, 10, 11, 12(IN1, IN2, IN3, IN4, respectively)
 
-//// Timer Count
-//void ISR_count(){
-//  counter++;
-//}
+RPM Counter
+unsigned int counter = 0;
+float diskslots = 24.00;
+float rotation;
 
-//// Timer
-//void ISR_timerone(){
-//  Timer1.detachInterrupt();
-//  float rotation = (counter / diskslots) * 60.00;
-//  counter = 0;
-//  Timer1.attachInterrupt(ISR_timerone);
-//}
+// Timer Count
+void ISR_count(){
+ counter++;
+}
 
-// A small helper
-//void error(const __FlashStringHelper*err) {
-//  Serial.println(err);
-//  while (1);
-//}
+// Timer
+void ISR_timerone(){
+ Timer1.detachInterrupt();
+ float rotation = (counter / diskslots) * 60.00;
+ counter = 0;
+ Timer1.attachInterrupt(ISR_timerone);
+}
+
+A small helper
+void error(const __FlashStringHelper*err) {
+ Serial.println(err);
+ while (1);
+}
 
 SoftwareSerial bluefruitSS = SoftwareSerial(BLUEFRUIT_SWUART_TXD_PIN, BLUEFRUIT_SWUART_RXD_PIN);
 Adafruit_BluefruitLE_UART ble(bluefruitSS, BLUEFRUIT_UART_MODE_PIN, BLUEFRUIT_UART_CTS_PIN, BLUEFRUIT_UART_RTS_PIN);
@@ -84,13 +84,13 @@ void setup(void){
   pinMode(SingleBandPowerPin, OUTPUT);
 
   // PID Setup
-//  windowStartTime = millis();
-//  Setpoint = 180;
-//  myPID.SetOutputLimits(0, WindowSize);
-//  myPID.SetMode(AUTOMATIC);
-//
-//  while (!Serial);
-//  delay(500);
+ windowStartTime = millis();
+ Setpoint = 180;
+ myPID.SetOutputLimits(0, WindowSize);
+ myPID.SetMode(AUTOMATIC);
+
+ while (!Serial);
+ delay(500);
 
   ///// Turn on heaters for 8 seconds ////
   Serial.begin(9600);
@@ -99,31 +99,31 @@ void setup(void){
   delay(8000);
 
   // Initialize timer interrupt
-//  Timer1.initialize(1000000);
-//  attachInterrupt(digitalPinToInterrupt(2), ISR_count, RISING);
-//  Timer1.attachInterrupt(ISR_timerone);
+ Timer1.initialize(1000000);
+ attachInterrupt(digitalPinToInterrupt(2), ISR_count, RISING);
+ Timer1.attachInterrupt(ISR_timerone);
 
   // Begin Bluetooth
-//  Serial.begin(115200);
-//  if ( !ble.begin(VERBOSE_MODE) ){
-//    error(F("Couldn't find Bluefruit, make sure it's in Command mode & check wiring?"));
-//  }
-//  Serial.println( F("OK!") );
-//  if (FACTORYRESET_ENABLE){
-//    Serial.println(F("Performing a factory reset: "));
-//    if ( ! ble.factoryReset() ){
-//      error(F("Couldn't factory reset"));
-//    }
-//  }
-//  
-//  ble.echo(false);
-//  ble.verbose(false);  // debug info is a little annoying after this point!
-//
-//  while (! ble.isConnected()){
-//    delay(500);}
-//
-//  // LED Activity command is only supported from 0.6.6
-//  if ( ble.isVersionAtLeast(MINIMUM_FIRMWARE_VERSION)){
-//    ble.sendCommandCheckOK("AT+HWModeLED=" MODE_LED_BEHAVIOUR); // Change Mode LED Activity
-//  }
+ Serial.begin(115200);
+ if ( !ble.begin(VERBOSE_MODE) ){
+   error(F("Couldn't find Bluefruit, make sure it's in Command mode & check wiring?"));
+ }
+ Serial.println( F("OK!") );
+ if (FACTORYRESET_ENABLE){
+   Serial.println(F("Performing a factory reset: "));
+   if ( ! ble.factoryReset() ){
+     error(F("Couldn't factory reset"));
+   }
+ }
+ 
+ ble.echo(false);
+ ble.verbose(false);  // debug info is a little annoying after this point!
+
+ while (! ble.isConnected()){
+   delay(500);}
+
+ // LED Activity command is only supported from 0.6.6
+ if ( ble.isVersionAtLeast(MINIMUM_FIRMWARE_VERSION)){
+   ble.sendCommandCheckOK("AT+HWModeLED=" MODE_LED_BEHAVIOUR); // Change Mode LED Activity
+ }
 }
