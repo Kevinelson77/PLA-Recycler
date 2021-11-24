@@ -27,47 +27,50 @@ void loop() {
      Serial.println(SingleBand);
    }
 
-   if(DoubleBand = 0.0){
-     digitalWrite(DoubleBandPowerPin, LOW);}
-   else if(DoubleBand <= 160.0) {
-    digitalWrite(DoubleBandPowerPin, HIGH);} 
-   else if(DoubleBand > 160.0){
-     digitalWrite(DoubleBandPowerPin, LOW);}
-   else {
-     digitalWrite(DoubleBandPowerPin, LOW);}
-   if(SingleBand = 0.0){
-     digitalWrite(SingleBandPowerPin, LOW);}
-   else if(SingleBand <= 170.0) {
-    digitalWrite(SingleBandPowerPin, HIGH);} 
-   else if(SingleBand > 170.0){
-     digitalWrite(SingleBandPowerPin, LOW);}
-   else {
-     digitalWrite(SingleBandPowerPin, LOW);}
+   
+//    Simple, non-PID version that is usable
+   
+//    if(DoubleBand = 0.0){
+//      digitalWrite(DoubleBandPowerPin, LOW);}
+//    else if(DoubleBand <= 160.0) {
+//     digitalWrite(DoubleBandPowerPin, HIGH);} 
+//    else if(DoubleBand > 160.0){
+//      digitalWrite(DoubleBandPowerPin, LOW);}
+//    else {
+//      digitalWrite(DoubleBandPowerPin, LOW);}
+//    if(SingleBand = 0.0){
+//      digitalWrite(SingleBandPowerPin, LOW);}
+//    else if(SingleBand <= 170.0) {
+//     digitalWrite(SingleBandPowerPin, HIGH);} 
+//    else if(SingleBand > 170.0){
+//      digitalWrite(SingleBandPowerPin, LOW);}
+//    else {
+//      digitalWrite(SingleBandPowerPin, LOW);}
 
-   if((DoubleBandPowerPin && SingleBandPowerPin) == HIGH){
-     digitalWrite(MotorPower, HIGH);
-   }
-   else { digitalWrite(MotorPower, LOW);}
+//    if((DoubleBandPowerPin && SingleBandPowerPin) == HIGH){
+//      digitalWrite(MotorPower, HIGH);
+//    }
+//    else { digitalWrite(MotorPower, LOW);}
 
 
-}
+// }
      
-  ///// Read all sensors /////
-//  String temp1write = "temp1";
-//  String temp1 = temp1write + thermocouple1.readCelsius();
-//  ble.print("AT+BLEUARTTX=");
-//  ble.println(temp1);
-//  String temp2write = "temp2";
-//  String temp2 = temp2write + thermocouple2.readCelsius();
-//  ble.print("AT+BLEUARTTX=");
-//  ble.println(temp2);
-//  String AugurRPMWrite = "auguerSpeed";
-//  String AugurRPM = AugurRPMWrite + rotation;
-//  ble.print("AT+BLEUARTTX=");
-//  ble.println(AugurRPM);
-//  String diameterWrite = "diameter";
-//  String diameter = diameterWrite + diameter;
-//  ble.print("AT+BLEUARTTX=");
+  /// Read all sensors /////
+ String temp1write = "temp1";
+ String temp1 = temp1write + thermocouple1.readCelsius();
+ ble.print("AT+BLEUARTTX=");
+ ble.println(temp1);
+ String temp2write = "temp2";
+ String temp2 = temp2write + thermocouple2.readCelsius();
+ ble.print("AT+BLEUARTTX=");
+ ble.println(temp2);
+ String AugurRPMWrite = "auguerSpeed";
+ String AugurRPM = AugurRPMWrite + rotation;
+ ble.print("AT+BLEUARTTX=");
+ ble.println(AugurRPM);
+ String diameterWrite = "diameter";
+ String diameter = diameterWrite + diameter;
+ ble.print("AT+BLEUARTTX=");
 //  ble.println(diameter);
 //  String pumpSpeedWrite = "pumpSpeed";
 //  String pumpSpeed = pumpSpeedWrite + pumpSpeed;
